@@ -1,0 +1,457 @@
+/* ==========================================================================
+   المتغيرات الأساسية (Variables) والتصفير (Reset)
+   ========================================================================== */
+:root {
+    --bg-main: #DADADA;
+    --bg-panel: #DADADA;
+    --bg-panel-solid: #DADADA;
+    --bg-panel-hover: #c4c4c4;
+    --border-color: #4C6054;
+    --accent-primary: #4C6054;
+    --accent-text: #ffffff;
+    --accent-green: #059669;
+    --accent-danger: #ef4444;
+    --text-main: hsl(0, 0%, 17%);
+    --text-muted: #4C6054;
+
+    --font-family-base: 'Noto Sans Arabic', 'IBM Plex Sans Arabic', 'Tajawal', 'Almarai', 'Alexandria', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+    --fs-body: 1.125rem; 
+    --fs-h1: 2rem;       
+    --fs-h2: 1.5rem;     
+    --fs-h3: 1.25rem;    
+    --lh-body: 1.8;      
+    --lh-heading: 1.5;   
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+body {
+    font-family: var(--font-family-base);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    -webkit-font-smoothing: antialiased; 
+    background: var(--bg-main); 
+    background-attachment: fixed; 
+    color: var(--text-main);
+    min-height: 100vh; 
+    margin: 0; 
+    direction: rtl;
+    user-select: none; 
+}
+
+h1, h2, h3 { line-height: var(--lh-heading); margin-bottom: 0.5em; color: var(--text-main); }
+h1 { font-size: var(--fs-h1); font-weight: 800; }
+h2 { font-size: var(--fs-h2); font-weight: 700; }
+h3 { font-size: var(--fs-h3); font-weight: 700; }
+p { margin-bottom: 1.2rem; }
+input, textarea { user-select: text !important; }
+
+body, .glass-panel, button, input, select, div, span, h1, h2, h3, ul, li {
+    transition: background 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ==========================================================================
+   التخطيط العام والمكونات الأساسية
+   ========================================================================== */
+.glass-panel {
+    background-color: var(--bg-panel); 
+    border: 2px solid var(--border-color);
+    border-radius: 1rem; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.pill-btn {
+    flex: 1 1 auto; 
+    min-width: 100px; 
+    padding: 0.5rem 1rem;
+    border-radius: 9999px; 
+    font-weight: 800; 
+    text-align: center;
+    background-color: var(--bg-panel-solid); 
+    color: var(--text-main);
+    border: 2px solid var(--border-color); 
+    cursor: pointer;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.pill-btn:hover { background-color: var(--bg-panel-hover); }
+
+.pill-btn.active {
+    background-color: var(--accent-primary); color: var(--accent-text);
+    border-color: var(--accent-primary); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#nav-modal-content .pill-btn {
+    width: 100%; 
+    border-radius: 0.5rem;
+    padding: 0.6rem;
+    font-size: 0.85rem;
+}
+
+.animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ==========================================================================
+   الأكورديون (الدروس والأسئلة)
+   ========================================================================== */
+.accordion-item { 
+    border: 2px solid var(--border-color); 
+    border-radius: 0.75rem; 
+    margin-bottom: 1rem; 
+    overflow: hidden; 
+    background-color: var(--bg-panel-solid); 
+}
+
+.accordion-header { 
+    cursor: pointer; 
+    transition: background 0.3s; 
+    width: 100%;
+}
+
+.accordion-icon { 
+    transition: transform 0.3s ease; 
+}
+
+.accordion-item.active .accordion-icon { 
+    transform: rotate(180deg); 
+}
+
+.accordion-body { 
+    display: grid; 
+    grid-template-rows: 0fr; 
+    transition: grid-template-rows 0.4s ease-in-out; 
+    background-color: var(--bg-main); 
+}
+
+.accordion-item.active .accordion-body { 
+    grid-template-rows: 1fr; 
+}
+
+.grid-wrapper { 
+    overflow: hidden; 
+    min-height: 0; 
+}
+
+/* ==========================================================================
+   المشجرة (Tree View) - مضغوطة وبألوان مخصصة
+   ========================================================================== */
+.tree-list { 
+    list-style-type: none; 
+    position: relative; 
+    margin-right: 0.1rem; 
+}
+.tree-list:not(.root-list)::before { 
+    content: ''; 
+    position: absolute; 
+    top: 0; bottom: 0; 
+    right: 0.1rem; 
+    width: 1px; 
+    background: var(--border-color); 
+}
+.tree-node { 
+    position: relative; 
+    margin-top: 1px; 
+    margin-bottom: 1px; 
+}
+.tree-node::before { 
+    content: ''; 
+    position: absolute; 
+    top: 0.55rem; 
+    right: -0.15rem; 
+    width: 0.25rem; 
+    height: 1px; 
+    background: var(--border-color); 
+}
+.root-list > .tree-node::before { display: none; }
+
+.tree-content { 
+    display: inline-flex; 
+    align-items: center; 
+    padding: 0.2rem 0.6rem; 
+    border-radius: 0.75rem; 
+    font-weight: 700; 
+    position: relative; 
+    z-index: 2; 
+    border: 1px solid var(--border-color); 
+}
+
+/* تلوين مستويات المشجرة */
+.tree-content.level-0 { 
+    background-color: var(--accent-primary) !important; 
+    color: var(--accent-text) !important; 
+    border-color: var(--accent-primary) !important;
+}
+.tree-content.level-1 {
+    background-color: #ffebee !important; 
+    color: #1a1a1a !important; 
+    border-color: #ef9a9a !important;
+}
+.tree-content.level-2 {
+    background-color: #fff3e0 !important; 
+    color: #1a1a1a !important; 
+    border-color: #ffb74d !important;
+    font-weight: 400 !important; 
+}
+.tree-content.level-3 {
+    background-color: #ffffff !important; 
+    color: #1a1a1a !important; 
+    border-color: #d1d5db !important;
+    font-weight: 400 !important; 
+}
+.tree-content.level-4,
+.tree-content[class*="level-"]:not(.level-0):not(.level-1):not(.level-2):not(.level-3) {
+    background-color: #e1f5fe !important; 
+    color: #1a1a1a !important; 
+    border-color: #81d4fa !important;
+    font-weight: 400 !important; 
+}
+
+.toggle-icon { 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    width: 14px; 
+    height: 14px; 
+    font-size: 0.6rem;
+    background: rgba(128,128,128,0.2); 
+    border-radius: 50%; 
+    margin-left: 0.2rem; 
+}
+
+/* ==========================================================================
+   البطاقات الذكية (Flash Cards) والأزرار
+   ========================================================================== */
+.flip-card { 
+    perspective: 1200px; 
+    min-height: 280px; 
+    width: 100%; 
+    cursor: pointer; 
+    margin: 1.5rem 0; 
+}
+
+.flip-card-inner { 
+    display: grid; 
+    width: 100%; 
+    height: 100%; 
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); 
+    transform-style: preserve-3d; 
+}
+
+.flip-card.flipped .flip-card-inner,
+.flip-card-inner.rotate-y-180 { 
+    transform: rotateY(180deg); 
+}
+
+.flip-card-front, .flip-card-back { 
+    grid-area: 1 / 1; 
+    width: 100%; 
+    height: 100%; 
+    backface-visibility: hidden; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    border-radius: 1.5rem; 
+    border: 2px solid var(--border-color); 
+    padding: 1rem; 
+    box-sizing: border-box; 
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.flip-card-front { 
+    background-color: var(--bg-panel-solid); 
+    color: var(--text-main); 
+    align-items: center; 
+    text-align: center; 
+}
+
+.flip-card-back { 
+    background-color: var(--accent-primary); /* تغيير الخلفية للأخضر */
+    color: var(--accent-text); /* تغيير النص للأبيض ليصبح واضحاً ومقروءاً */
+    transform: rotateY(180deg); 
+    align-items: flex-start; 
+    text-align: right; 
+}
+
+.action-btn { background-color: var(--accent-primary); color: var(--accent-text); border-radius: 0.75rem; font-weight: 800; width: 100%; border: 2px solid var(--border-color); cursor: pointer; }
+.action-btn:disabled { opacity: 0.5; background-color: var(--bg-panel-solid); color: var(--text-muted); cursor: not-allowed; }
+.opt-btn { background-color: var(--bg-panel-solid); border: 2px solid var(--border-color); color: var(--text-main); cursor: pointer; }
+.opt-btn.selected { border-color: var(--accent-primary); background-color: var(--bg-panel-hover); }
+.opt-btn.correct { background-color: var(--accent-green) !important; color: #ffffff !important; border-color: var(--accent-green) !important; }
+.opt-btn.wrong { background-color: var(--accent-danger) !important; color: #ffffff !important; border-color: var(--accent-danger) !important; }
+.input-stylish { width: 100%; border-radius: 0.75rem; border: 2px solid var(--border-color); background-color: var(--bg-panel-solid); color: var(--text-main); outline: none; }
+.input-stylish:focus { border-color: var(--accent-primary); background-color: var(--bg-panel); }
+.progress-container { height: 6px; background-color: var(--bg-panel-solid); border-radius: 3px; overflow: hidden; border: 1px solid var(--border-color); }
+.progress-bar { height: 100%; background-color: var(--accent-primary); transition: width 0.3s ease; }
+
+.highlight {
+    color: #B0A30C;
+    font-weight: 800;
+    border-bottom: 1px solid rgba(176, 163, 12, 0.3);
+}
+
+/* ==========================================================================
+   نصوص الدروس (الملخص)
+   ========================================================================== */
+.lesson-content {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--text-main);
+}
+.lesson-content h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--accent-primary);
+    margin-top: 1.75rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px dashed var(--border-color);
+    padding-bottom: 0.5rem;
+}
+.lesson-content h4 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.lesson-content p {
+    margin-bottom: 1.2rem;
+    text-align: justify;
+}
+.lesson-content ul {
+    list-style-type: disc;
+    padding-right: 1rem;
+    margin-bottom: 1.2rem;
+}
+.lesson-content ol {
+    list-style-type: decimal;
+    padding-right: 1rem;
+    margin-bottom: 1.2rem;
+}
+.lesson-content li {
+    margin-bottom: 0.5rem;
+}
+.lesson-content b, .lesson-content strong {
+    font-weight: 900;
+    color: var(--accent-danger);
+}
+
+/* ==========================================================================
+   مشغل الصوتيات المخصص (Audio Player)
+   ========================================================================== */
+audio { display: none !important; }
+
+.simple-audio-player {
+    width: 100%;
+    background: #000;
+    border-radius: 8px;
+    padding: 6px 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    direction: ltr; /* هام لضبط اتجاه التقدم */
+}
+
+.player-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.player-row button {
+    flex-shrink: 0;
+    border: none;
+    border-radius: 4px;
+    background: #333;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 26px;
+}
+
+.player-row button:active {
+    transform: scale(0.95);
+}
+
+.btn-play {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    background: transparent !important;
+    color: #fff !important;
+    font-size: 16px !important;
+    padding: 0 !important;
+}
+
+.time-current,
+.time-total {
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 35px;
+    text-align: center;
+    color: #fff;
+}
+
+.time-total {
+    color: #999;
+}
+
+.simple-audio-player .progress-bar {
+    flex: 1;
+    height: 4px;
+    background: #444;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.simple-audio-player .progress-fill {
+    height: 100%;
+    background: #1ed760;
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.1s linear;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.btn-speed {
+    width: 36px;
+    min-width: 36px;
+}
+
+.btn-speed:hover {
+    background: #444;
+    color: #1ed760;
+}
+
+/* ==========================================================================
+   التجاوب مع الشاشات (Media Queries)
+   ========================================================================== */
+@media (max-width: 767px) {
+    .simple-audio-player { padding: 5px 6px; }
+    .player-row { gap: 6px; }
+    .btn-play { width: 24px; min-width: 24px; font-size: 14px !important; }
+    .time-current, .time-total { font-size: 9px; min-width: 32px; }
+    .btn-speed { width: 32px; min-width: 32px; font-size: 10px; }
+}
+
+@media (min-width: 768px) {
+    .flip-card-front, .flip-card-back { padding: 2rem; }
+    .lesson-content ul, .lesson-content ol { padding-right: 1.75rem; }
+}

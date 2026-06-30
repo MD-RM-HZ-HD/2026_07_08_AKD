@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>الاختبار الشامل والموسع</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;700;800&family=Almarai:wght@400;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;700;800&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="bg-[color:var(--bg-main)] text-[color:var(--text-main)] antialiased transition-colors duration-300">
+
+    <div id="header-wrapper" class="sticky top-0 z-[100] pt-4 md:pt-6 pb-2 bg-[color:var(--bg-main)] transition-transform duration-300">
+        <header class="max-w-4xl w-full mx-auto px-2 md:px-4 flex items-start md:items-center justify-between gap-3">
+            
+            <div class="flex items-center gap-2 md:hidden">
+                <button id="top-nav-btn" class="px-4 py-2.5 text-[color:var(--accent-primary)] bg-[color:var(--bg-panel-solid)] rounded-xl shadow-sm border-2 border-[color:var(--border-color)] font-bold flex items-center justify-center gap-2 hover:bg-[color:var(--bg-panel-hover)] transition-all focus:outline-none">
+                    <span class="text-xl leading-none">☰</span>
+                    <span class="text-sm">الأقسام</span>
+                </button>
+            </div>
+
+            <nav id="top-nav-menu" class="hidden md:flex flex-wrap justify-center items-center gap-2 flex-1 bg-[color:var(--bg-panel-solid)] p-2 rounded-2xl shadow-sm border-2 border-[color:var(--border-color)]">
+                <button class="pill-btn" data-tab="text"> النص</button>
+                <button class="pill-btn active" data-tab="mindmap">المشجرة</button>
+                <button class="pill-btn" data-tab="qa">الأسئلة</button>
+                <button class="pill-btn" data-tab="presentation">الشروح</button>
+                
+                <div class="relative group">
+                    <button class="pill-btn flex items-center gap-2 justify-center" id="tests-dropdown-btn">
+                        <span>اختبارات</span>
+                        <span class="text-[0.6rem] transition-transform group-hover:rotate-180">▼</span>
+                    </button>
+                    <div class="absolute top-full right-0 mt-2 min-w-[180px] bg-[color:var(--bg-panel-solid)] border-2 border-[color:var(--border-color)] rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 flex flex-col overflow-hidden z-[200]">
+                        <button class="pill-btn !border-0 !border-b !border-[color:var(--border-color)] !rounded-none last:!border-0 !bg-transparent hover:!bg-[color:var(--bg-panel-hover)]" data-tab="cards">البطاقات</button>
+                        <button class="pill-btn !border-0 !border-b !border-[color:var(--border-color)] !rounded-none last:!border-0 !bg-transparent hover:!bg-[color:var(--bg-panel-hover)]" data-tab="tf">صح / خطأ</button>
+                        <button class="pill-btn !border-0 !border-b !border-[color:var(--border-color)] !rounded-none last:!border-0 !bg-transparent hover:!bg-[color:var(--bg-panel-hover)]" data-tab="mcq">اختياري</button>
+                        <button class="pill-btn !border-0 !border-b !border-[color:var(--border-color)] !rounded-none last:!border-0 !bg-transparent hover:!bg-[color:var(--bg-panel-hover)]" data-tab="fill">الفراغات</button>
+                        <button class="pill-btn !border-0 !border-b !border-[color:var(--border-color)] !rounded-none last:!border-0 !bg-transparent hover:!bg-[color:var(--bg-panel-hover)]" data-tab="comp">المقارنات</button>
+                    </div>
+                </div>
+            </nav>
+
+            <button id="top-settings-btn" class="w-11 h-11 md:w-12 md:h-12 text-[color:var(--accent-primary)] bg-[color:var(--bg-panel-solid)] rounded-xl shadow-sm border-2 border-[color:var(--border-color)] flex items-center justify-center hover:bg-[color:var(--bg-panel-hover)] transition-all ml-auto md:ml-0 focus:outline-none shrink-0">
+                <span class="text-xl md:text-2xl leading-none">⚙️</span>
+            </button>
+        </header>
+    </div>
+
+    <div class="max-w-4xl w-full mx-auto pt-4 pb-10 px-1 md:px-4" id="app-container">
+        <div id="content-area" class="glass-panel p-2 md:p-8 min-h-[40vh] flex flex-col"></div>
+    </div>
+
+    <div id="settings-modal" class="fixed inset-0 bg-black/50 z-[200] hidden items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-[color:var(--bg-panel-solid)] border-2 border-[color:var(--border-color)] rounded-2xl shadow-2xl p-5 w-11/12 max-w-[320px] md:max-w-md lg:max-w-lg flex flex-col gap-4 relative transform scale-95 transition-transform duration-300" id="settings-modal-content">
+            <button id="close-settings-btn" class="absolute top-4 left-4 text-2xl font-black text-[color:var(--accent-danger)] hover:scale-110 transition-transform focus:outline-none">×</button>
+            <h3 class="text-lg md:text-xl font-bold text-center text-[color:var(--accent-primary)] mb-1">الإعدادات</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-bold text-[color:var(--text-muted)]">تخصيص المظهر:</label>
+                    <select id="theme-select" class="w-full p-2 text-sm rounded-lg bg-[color:var(--bg-main)] text-[color:var(--text-main)] font-bold focus:ring-2 focus:ring-[color:var(--accent-primary)] cursor-pointer outline-none border border-[color:var(--border-color)] shadow-inner">
+                        <option value="0">الأخضر الغابي (فاتح)</option>
+                        <option value="1">الأخضر الرمادي</option>
+                        <option value="2">الوضع الليلي</option>
+                        <option value="3">الرمادي</option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-bold text-[color:var(--text-muted)]">تخصيص الخط:</label>
+                    <select id="font-family-select" class="w-full p-2 text-sm rounded-lg bg-[color:var(--bg-main)] text-[color:var(--text-main)] font-bold focus:ring-2 focus:ring-[color:var(--accent-primary)] cursor-pointer outline-none border border-[color:var(--border-color)] shadow-inner">
+                        <option value="Noto Sans Arabic">Noto Sans Arabic</option>
+                        <option value="IBM Plex Sans Arabic">IBM Plex Sans Arabic</option>
+                        <option value="Tajawal">Tajawal</option>
+                        <option value="Almarai">Almarai</option>
+                        <option value="Alexandria">Alexandria</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center bg-[color:var(--bg-main)] p-3 rounded-lg shadow-inner border border-[color:var(--border-color)] mt-1">
+                <span class="text-sm font-bold text-[color:var(--text-muted)]">حجم النص الرئيسي:</span>
+                <div class="flex gap-2">
+                    <button id="btn-font-down" class="w-10 h-10 flex justify-center items-center bg-[color:var(--bg-panel-solid)] rounded-lg hover:bg-[color:var(--bg-panel-hover)] font-black text-lg transition-all shadow-sm focus:outline-none border border-[color:var(--border-color)]">-</button>
+                    <button id="btn-font-up" class="w-10 h-10 flex justify-center items-center bg-[color:var(--accent-primary)] text-[color:var(--accent-text)] rounded-lg hover:opacity-90 font-black text-lg transition-all shadow-sm focus:outline-none border border-[color:var(--border-color)]">+</button>
+                </div>
+            </div>
+
+            <button id="btn-reset" class="w-full mt-2 p-3 bg-red-500/10 text-[color:var(--accent-danger)] font-bold text-sm rounded-lg hover:bg-red-500 hover:text-white transition-colors shadow-sm flex justify-center items-center gap-2 focus:outline-none border border-[color:var(--accent-danger)]">
+                <span class="text-lg">🔄</span> مسح بيانات الاختبار
+            </button>
+        </div>
+    </div>
+
+    <div id="nav-modal" class="fixed inset-0 bg-black/50 z-[200] hidden items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-[color:var(--bg-panel-solid)] rounded-2xl shadow-2xl p-4 w-[240px] flex flex-col gap-3 relative transform scale-95 transition-transform duration-300 border-2 border-[color:var(--border-color)]" id="nav-modal-content">
+            <button id="close-nav-btn" class="absolute top-3 left-3 text-2xl font-black text-[color:var(--text-muted)] hover:text-[color:var(--accent-danger)] hover:scale-110 transition-all focus:outline-none">×</button>
+            <h3 class="text-lg font-bold text-center text-[color:var(--accent-primary)] mb-2 border-b border-dashed border-[color:var(--border-color)] pb-2">اختر القسم</h3>
+            
+            <div class="flex flex-col gap-1.5">
+                <button class="pill-btn !py-2 !text-sm" data-tab="text"> النص</button>
+                <button class="pill-btn active !py-2 !text-sm" data-tab="mindmap">المشجرة</button>
+                <button class="pill-btn !py-2 !text-sm" data-tab="qa">الأسئلة</button>
+                <button class="pill-btn !py-2 !text-sm" data-tab="presentation">الشروح</button>
+                <button class="pill-btn !py-2 !text-sm" data-tab="cards">البطاقات</button>
+                <button class="pill-btn !py-2 !text-sm" data-tab="tf">صح / خطأ</button>
+                <button class="pill-btn !py-2 !text-sm" data-tab="mcq">اختياري</button>
+                <button class="pill-btn !py-2 !text-sm" data-tab="fill">الفراغات</button>
+                <button class="pill-btn !py-2 !text-sm" data-tab="comp">المقارنات</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./data/data.Mind.Map.js"></script>
+    <script src="./data/data.Lesson.Text.js"></script>
+      <script src="./data/data.Lesson.Text.1.js"></script>
+     <script src="./data/data.Lesson.Text.2.js"></script>
+    <script src="./data/data.Lesson.Questions.js"></script>
+    <script src="./data/data.Presentation.js"></script>
+    <script src="./data/data.Mind.Map.1.js"></script>
+    <script src="./data/data.Flash.Cards.js"></script>
+    <script src="./data/data.Flash.Cards.1.js"></script>
+    <script src="./data/data.qz.True.False.js"></script>
+    <script src="./data/data.qz.True.False.1.js"></script>
+    <script src="./data/data.qz.Multiple.Choice.js"></script>
+    <script src="./data/data.qz.Multiple.Choice.1.js"></script>
+    <script src="./data/data.qz.Fill.Blank.js"></script>
+    <script src="./data/data.qz.Fill.Blank.1.js"></script>
+    <script src="./data/data.qz.Compare.js"></script>
+    <script src="./data/data.qz.Compare.1.js"></script>
+    <script src="./js/script.js"></script>
+</body>
+</html>
