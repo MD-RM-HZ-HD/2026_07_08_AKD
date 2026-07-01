@@ -146,7 +146,7 @@ const StateManager = {
 };
 
 let State = {
-    tab: 'mindmap', 
+    tab: 'text', 
     fontSize: parseInt(localStorage.getItem('fontSize')) || 20,
     activeSet: { mindmap: 1, text: 1, qa: 1, presentation: 1, tf: 1, cards: 1, mcq: 1, fill: 1, comp: 1 }, 
     cardsIdx: 0, cardsFlipped: false,
@@ -441,7 +441,7 @@ function renderText() {
             <div class="w-full">
                 <h3 class="text-sm md:text-base font-black text-[color:var(--accent-primary)] mb-2 text-right" dir="rtl"> الملف الصوتي</h3>
                 <div class="simple-audio-player shadow-sm" dir="ltr">
-                    <audio id="global-audio-1" src="audio/aud_1.mp3" preload="metadata"></audio>
+                    <audio id="global-audio-1" src="Audio/aud_1.mp3" preload="metadata"></audio>
                     <div class="player-row">
                         <button class="btn-play" onclick="window.toggleAudio('global-audio-1', this)">▶</button>
                         <span class="time-current" id="current-global-audio-1">0:00</span>
@@ -539,8 +539,8 @@ function renderPresentation() {
                         <div class="w-full">
                             <h3 class="text-sm md:text-base font-black text-[color:var(--accent-primary)] mb-2 text-right" dir="rtl">انفوجرافيك</h3>
                             <div class="flex flex-col items-center gap-4 bg-[color:var(--bg-main)] p-4 rounded-xl border border-[color:var(--border-color)]">
-                                <img src="${item.info}" class="max-w-full h-auto rounded-lg shadow-sm" onerror="this.style.display='none'">
-                                <a href="${item.info}" download class="px-4 py-2 bg-[color:var(--accent-green)] text-white text-xs font-bold rounded-lg shadow-sm hover:opacity-90 transition self-start">تحميل الصورة</a>
+                                <img src="${item.Info}" class="max-w-full h-auto rounded-lg shadow-sm" onerror="this.style.display='none'">
+                                <a href="${item.Info}" download class="px-4 py-2 bg-[color:var(--accent-green)] text-white text-xs font-bold rounded-lg shadow-sm hover:opacity-90 transition self-start">تحميل الصورة</a>
                             </div>
                         </div>
 
