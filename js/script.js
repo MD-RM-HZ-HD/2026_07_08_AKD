@@ -933,17 +933,23 @@ function initApp() {
         lastScrollY = currentScrollY;
     });
 
-    if(DOM.tabs) {
+if(DOM.tabs) {
+        // 1. تنظيف شامل لكل الأزرار من أي تظليل قديم
+        DOM.tabs.forEach(btn => btn.classList.remove('active'));
+
+        // 2. تفعيل الزر المطابق للحالة الحالية فقط
+        const activeBtn = Array.from(DOM.tabs).find(btn => btn.dataset.tab === State.tab);
+        if (activeBtn) activeBtn.classList.add('active');
+
+        // 3. مستمع النقرات
         DOM.tabs.forEach(btn => {
-            if(btn.dataset.tab === State.tab) btn.classList.add('active'); 
             btn.addEventListener('click', (e) => {
                 const targetTab = e.currentTarget.dataset.tab;
                 if(!targetTab) return; 
                 
-                DOM.tabs.forEach(b => {
-                    b.classList.remove('active');
-                    if (b.dataset.tab === targetTab) b.classList.add('active');
-                });
+                // تحديث التظليل عند الضغط
+                DOM.tabs.forEach(b => b.classList.remove('active'));
+                e.currentTarget.classList.add('active');
                 
                 State.tab = targetTab; 
                 StateManager.saveState(State);
@@ -957,5 +963,4 @@ function initApp() {
     }
     renderTab();
 }
-
 document.addEventListener('DOMContentLoaded', initApp);
