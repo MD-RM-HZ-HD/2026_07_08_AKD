@@ -13,7 +13,7 @@
     --accent-danger: #ef4444;
     --text-main: hsl(0, 0%, 17%);
     --text-muted: #4C6054;
-
+    --accent-brick: #A75252;
     --font-family-base: 'Noto Sans Arabic', 'IBM Plex Sans Arabic', 'Tajawal', 'Almarai', 'Alexandria', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
     --fs-body: 1.125rem; 
     --fs-h1: 2rem;       
@@ -263,15 +263,20 @@ body, .glass-panel, button, input, select, div, span, h1, h2, h3, ul, li {
 }
 
 .flip-card-front { 
-    background-color: var(--bg-panel-solid); 
-    color: var(--text-main); 
+    /*background-color: var(--bg-panel-solid); */
+    background-color:  rgba(167, 82, 82, 0.15);
+    color: var(--accent-brick);
     align-items: center; 
     text-align: center; 
 }
 
 .flip-card-back { 
-    background-color: var(--accent-primary); /* تغيير الخلفية للأخضر */
-    color: var(--accent-text); /* تغيير النص للأبيض ليصبح واضحاً ومقروءاً */
+    /*background-color: var(--accent-primary); /* تغيير الخلفية للأخضر */
+  /*background-color: var(--bg-panel-solid);*/ 
+      background-color:  rgba(76, 96, 84, 0.15);
+
+   /* color: var(--accent-text); /* تغيير النص للأبيض ليصبح واضحاً ومقروءاً */
+    color: var(--text-main); 
     transform: rotateY(180deg); 
     align-items: flex-start; 
     text-align: right; 
@@ -337,7 +342,7 @@ body, .glass-panel, button, input, select, div, span, h1, h2, h3, ul, li {
 }
 .lesson-content b, .lesson-content strong {
     font-weight: 900;
-    color: var(--accent-danger);
+    color: var(--accent-brick);
 }
 
 /* ==========================================================================
